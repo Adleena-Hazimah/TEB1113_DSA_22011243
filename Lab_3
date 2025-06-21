@@ -1,0 +1,86 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    string label;
+    int value;
+    Node* nextNode;
+    Node* prevNode;
+
+    Node(string lbl = "", int val = 0) {
+        label = lbl;
+        value = val;
+        nextNode = nullptr;
+        prevNode = nullptr;
+    }
+};
+
+class DoublyLinkedList {
+public:
+    Node* first;
+    Node* last;
+
+    DoublyLinkedList() {
+        first = nullptr;
+        last = nullptr;
+    }
+
+    void addNode(Node* newNode) {
+        if (first == nullptr) {
+            first = last = newNode;
+        } else {
+            last->nextNode = newNode;
+            newNode->prevNode = last;
+            last = newNode;
+        }
+    }
+
+    void removeNode(Node* target) {
+        if (target == nullptr) return;
+
+        if (target == first) {
+            first = first->nextNode;
+            if (first) first->prevNode = nullptr;
+        } else if (target == last) {
+            last = last->prevNode;
+            if (last) last->nextNode = nullptr;
+        } else {
+            target->prevNode->nextNode = target->nextNode;
+            target->nextNode->prevNode = target->prevNode;
+        }
+
+        delete target;
+    }
+
+    void printNodes() {
+        Node* walker = first;
+        while (walker != nullptr) {
+            cout << walker->label << " ";
+            walker = walker->nextNode;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    Node* a = new Node("ava", 20);
+    Node* b = new Node("adleena", 21);
+    Node* c = new Node("hazimah", 22);
+
+    DoublyLinkedList studentList;
+
+    studentList.addNode(a);
+    studentList.addNode(b);
+    studentList.addNode(c);
+
+    cout << "Before removal: ";
+    studentList.printNodes();
+
+    studentList.removeNode(b);
+
+    cout << "After removal: ";
+    studentList.printNodes();
+
+    return 0;
+}
