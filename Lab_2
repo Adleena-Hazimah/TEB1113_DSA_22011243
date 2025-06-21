@@ -1,0 +1,58 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
+using namespace std;
+
+// Part 1: Sort Matrix Elements
+void matrixSort(vector<vector<int>>& matrix) {
+    vector<int> elements;
+
+    for (size_t i = 0; i < matrix.size(); ++i)
+        elements.insert(elements.end(), matrix[i].begin(), matrix[i].end());
+
+    sort(elements.begin(), elements.end());
+
+    int pos = 0;
+    for (size_t i = 0; i < matrix.size(); ++i)
+        for (size_t j = 0; j < matrix[i].size(); ++j)
+            matrix[i][j] = elements[pos++];
+}
+
+// Part 2: Rotate Matrix 180 Degrees
+void rotateBy180(vector<vector<int>>& mat) {
+    int n = mat.size();
+    vector<vector<int>> rotated(n, vector<int>(n));
+
+    for (int r = 0; r < n; ++r)
+        for (int c = 0; c < n; ++c)
+            rotated[r][c] = mat[n - r - 1][n - c - 1];
+
+    mat = rotated;
+}
+
+// Part 3: Max Value Difference (Hard)
+const int SIZE = 5;
+
+int findMaxDifference(int mat[SIZE][SIZE]) {
+    int maxDiff = INT_MIN;
+
+    for (int i = 0; i < SIZE - 1; ++i) {
+        for (int j = 0; j < SIZE - 1; ++j) {
+            for (int x = i + 1; x < SIZE; ++x) {
+                for (int y = j + 1; y < SIZE; ++y) {
+                    int diff = mat[x][y] - mat[i][j];
+                    maxDiff = max(maxDiff, diff);
+                }
+            }
+        }
+    }
+
+    return maxDiff;
+}
+
+// Main Function
+int main() {
+    // Part 1 Output
+    cout << "=== Part 1: Sorted Matrix ===" << endl;
+    vector<vector<int>> grid1 = {
