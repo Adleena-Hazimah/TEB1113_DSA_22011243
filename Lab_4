@@ -1,0 +1,72 @@
+// ava_22011329_LAB4
+
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    string stdName;
+    int stdAge;
+    Node* nextLink;
+    Node* prevLink;
+
+    Node(string name = "", int age = 0) {
+        stdName = name;
+        stdAge = age;
+        nextLink = nullptr;
+        prevLink = nullptr;
+    }
+};
+
+class LinkedList {
+public:
+    Node* head;
+    Node* tail;
+
+    LinkedList() {
+        head = nullptr;
+        tail = nullptr;
+    }
+
+    void pushNode(Node* newNode) {
+        if (head == nullptr) {
+            head = tail = newNode;
+            tail->nextLink = head;
+        } else {
+            tail->nextLink = newNode;
+            newNode->prevLink = tail;
+            tail = newNode;
+            tail->nextLink = head; // make it circular
+        }
+    }
+
+    void showList() {
+        if (head == nullptr) return;
+
+        Node* walker = head;
+        do {
+            cout << walker->stdName << " ";
+            walker = walker->nextLink;
+        } while (walker != head);
+
+        cout << walker->stdName << endl; // repeats head to match original behavior
+    }
+};
+
+int main() {
+    Node* std1 = new Node("ava", 20);
+    Node* std2 = new Node("adleena", 21);
+    Node* std3 = new Node("hazimah", 22);
+    Node* std4 = new Node("ramli", 23);
+
+    LinkedList stdGroup;
+
+    stdGroup.pushNode(std1);
+    stdGroup.pushNode(std2);
+    stdGroup.pushNode(std3);
+    stdGroup.pushNode(std4);
+
+    stdGroup.showList();
+
+    return 0;
+}
